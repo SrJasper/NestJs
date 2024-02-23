@@ -2,6 +2,7 @@ const express = require ('express');
 const mysql = require('mysql2');
 const { engine } = require('express-handlebars');
 const fileupload = require('express-fileupload');
+const fs = require('fs');
 const app = express();
 
 app.use(fileupload());
@@ -16,6 +17,7 @@ app.engine('handlebars', engine());
 app.set('view engine', 'handlebars');
 app.set('views', './views');
 app.use('/css', express.static('./css'));
+app.use('/imagens', express.static("./imagens"))
 
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
@@ -29,11 +31,38 @@ conexao.connect(function(erro){
 app.get('/', function (req, res){
     let sql = 'SELECT * FROM produtos';
 
-    conexao.query(sql, function(erro, retrono){
+    conexao.query(sql, function(erro, retorno){
             
         res.render('formulario', {produtos: retorno});
     });
 });
+
+app.get('/remover/:codigo&:imagem', function(req, res){
+    let sql = `DELETE FROM produtos WHERE codigo = ${req.params.codigo}`;
+
+    conexao.query(sql, function(erro, retorno){
+        if(erro) throw erro;
+
+        fs.unlink(__dirname+'/imagens/'+req.params.imagem, (erro_imagem)=>{
+            console.log('Falha ao remover imagem');
+        });
+    });
+
+    res.redirect('/');
+})
+
+app.get('/formularioEditar/:codigo', function(req, res){
+    let codigo = req.params.codigo;
+
+    let sql = `SELECT * FROM produtos WHERE codigo = ${codigo}`;
+
+    conexao.query(sql, function(erro, retorno){
+        if(erro) throw erro;
+
+        res.render('formularioEditar', {produto:retorno[0]});
+    })
+
+})
 
 app.post('/cadastrar', function(req, res){
     

@@ -1,6 +1,5 @@
-main{
+body{
     background-color: rgb(32, 32, 32);
-    height: 1000px;
 }
 
 form{
@@ -14,6 +13,30 @@ form{
 }
 
 form input{
-    color: white;
+    color: rgb(122, 122, 122);
     margin-bottom: 10px;
+}
+
+form input{
+    margin-top: 10px;
+}
+
+form img{
+    width: 200px;
+    margin-bottom: 40px;
+}
+
+.card{
+    margin-top: 40px;
+    padding: 5px;
+}
+.textos{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 3px;
+    font-weight: bold;
+}
+
+.card a{
+    margin-top: 5px;
 }
