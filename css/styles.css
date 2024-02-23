@@ -1,0 +1,19 @@
+main{
+    background-color: rgb(32, 32, 32);
+    height: 1000px;
+}
+
+form{
+    margin-top: 30px;
+    text-align: center;
+}
+
+.form-control{
+    background-color: rgb(113, 113, 113);
+    color: rgb(255, 255, 255);
+}
+
+form input{
+    color: white;
+    margin-bottom: 10px;
+}
