@@ -1,0 +1,26 @@
+
+<main>
+    {{#if semRegistros}}
+    <h1 class="produto-nao-encontrado">Nenhum produto encontrado :T</h1>
+    {{/if}}
+
+    <div class="container">
+        <div class="row">
+            {{#each produtos}}
+
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                <div class="card">
+                    <img src="../imagens/{{imagem}}">
+                    <div class="textos">
+                        <p>{{nome}}</p>
+                        <p>{{valor}}</p>
+                    </div>
+                    <a href="/formularioEditar/{{codigo}}" class="btn btn-warning">alterar</a>
+                    <a href="/remover/{{codigo}}&{{imagem}}" class="btn btn-danger">remover</a>
+                </div>
+            </div>
+            {{/each}}
+        </div>
+    </div>
+
+</main>
