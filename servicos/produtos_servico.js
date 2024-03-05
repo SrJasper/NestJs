@@ -10,42 +10,83 @@ function formularioCadastro(req, res){
 }
 
 // Função para realizar o cadastro de produtos
-function cadastrarProduto(req, res){
-    
-    try{
+function cadastrarProduto(req, res) {
+    try {
         let nome = req.body.nome;
         let valor = req.body.valor;
         let categoria = req.body.categoria;
         let imagem = req.files.imagem.name;
 
+        if (nome == '' || valor == '' || isNaN(valor) || categoria == '') {
+            return res.redirect('/falhaCadastro');
+        }
 
+        let menorCodigo = 0; // Começa com o menor código possível
+
+        // Consulta SQL para verificar se o código já está em uso
+        let sqlVerificarCodigo = `SELECT COUNT(*) AS total FROM produtos WHERE codigo = ?`;
         
-        if(nome == '' || valor == '' ||valor == isNaN(valor) || categoria == ''){
-            res.redirect('/falhaCadastro')
-    
-        } else {
-            //SQL
-            let sql = `INSERT INTO produtos (nome, valor, imagem, categoria) VALUES ('${nome}', ${valor}, '${imagem}', '${categoria}')`;
-    
-            //Executar comando SQL
-            conexao.query(sql, function(erro, retorno){
-                if(erro) {
+        // Executar a consulta para verificar se o código já está em uso
+        conexao.query(sqlVerificarCodigo, [menorCodigo], function(erro, resultado) {
+            if (erro) {
+                console.log("Erro ao verificar o código:", erro);
+                return res.redirect('/falhaCadastro');
+            }
+
+            if (resultado[0].total > 0) {
+                // Se o código já estiver em uso, procurar o próximo disponível
+                proximoCodigoDisponivel();
+            } else {
+                // Se o código estiver disponível, usar esse código para inserção
+                inserirProduto(menorCodigo);
+            }
+        });
+
+        function proximoCodigoDisponivel() {
+            // Função para encontrar o próximo código disponível
+            menorCodigo++;
             
-                    res.redirect('/falhaCadastro');
-                    throw erro; // Adicionado para evitar que a execução continue
+            // Consulta SQL para verificar se o próximo código já está em uso
+            conexao.query(sqlVerificarCodigo, [menorCodigo], function(erro, resultado) {
+                if (erro) {
+                    console.log("Erro ao verificar o próximo código:", erro);
+                    return res.redirect('/falhaCadastro');
+                }
+
+                if (resultado[0].total > 0) {
+                    // Se o próximo código também estiver em uso, chamar a função recursivamente para encontrar o próximo
+                    proximoCodigoDisponivel();
+                } else {
+                    // Se o próximo código estiver disponível, usar esse código para inserção
+                    inserirProduto(menorCodigo);
+                }
+            });
+        }
+
+        function inserirProduto(codigo) {
+            // SQL para inserir o produto com o código disponível
+            let sqlInsert = `INSERT INTO produtos (codigo, nome, valor, imagem, categoria) 
+                             VALUES (${codigo}, '${nome}', ${valor}, '${imagem}', '${categoria}')`;
+            
+            // Executar comando SQL para inserção
+            conexao.query(sqlInsert, function(erro, retorno) {
+                if (erro) {
+                    console.log("Erro ao inserir o produto:", erro);
+                    return res.redirect('/falhaCadastro');
                 }
                 
-                req.files.imagem.mv(__dirname+'../../imagens/'+req.files.imagem.name);
+                req.files.imagem.mv(__dirname + '../../imagens/' + req.files.imagem.name);
                 console.log(retorno);
                 
-                res.redirect('/okCadastro'); // Redirecionamento aqui
+                res.redirect('/okCadastro');
             });
-
         }
     } catch(erro) {
-        res.redirect('/falhaCadastro')
+        console.log("Erro durante o cadastro do produto:", erro);
+        res.redirect('/falhaCadastro');
     }
 }
+
 
 // Função para exibir o formulário para cadastro de produtos e a situação
 function formularioCadastroComSituacao(req, res){
