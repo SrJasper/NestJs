@@ -24,8 +24,11 @@ app.use('/imagens', express.static("./imagens"))
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 
-console.log("Definindo rotas");
 app.use('/', rota_produto);
-console.log("Rotas definidas com sucesso\nInicializando o servidor");
+
+app.use((err, req, res, next) => {
+  console.error("Erro global:", err);
+  res.status(500).send('Erro interno do servidor');
+});
 
 //app.listen(8080);

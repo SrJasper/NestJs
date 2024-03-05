@@ -3,14 +3,11 @@ const conexao = require('../db/conexao_mysql');
 
 // Importar o módulo file system
 const fs = require('fs');
-console.log("serviço de formulario de cadastro iniciando");
 // Função para exibir o formulário para cadastro de produtos
 function formularioCadastro(req, res){
     res.render('formulario');
 }
-console.log("serviço de formulario de cadastro criado com sucesso");
 
-console.log("serviço de cadastramento de produto iniciado");
 // Função para realizar o cadastro de produtos
 function cadastrarProduto(req, res) {
     try {
@@ -88,16 +85,12 @@ function cadastrarProduto(req, res) {
         res.redirect('/falhaCadastro');
     }
 }
-console.log("serviço de cadastramento de produto criado com sucesso");
 
-console.log("serviço de formulário de cadastro com situação iniciado");
 // Função para exibir o formulário para cadastro de produtos e a situação
 function formularioCadastroComSituacao(req, res){
     res.render('formulario', {situacao:req.params.situacao});
 }
-console.log("serviço de formulário de cadastro com situação criado com sucesso");
 
-console.log("serviço de formulário de edição iniciado");
 // Função para exibir o formulário para edição de produtos
 function formularioEditar(req, res){
     let codigo = req.params.codigo;
@@ -110,9 +103,7 @@ function formularioEditar(req, res){
         res.render('formularioEditar', {produto:retorno[0]});
     })
 }
-console.log("serviço de formulário de edição criado com sucesso");
 
-console.log("serviço de listagem de produto iniciado");
 // Função para exibir a listagem de produtos
 function listagemProdutos(req, res){
     let categoria = req.params.categoria;
@@ -129,9 +120,7 @@ function listagemProdutos(req, res){
         res.render('lista', {produtos:retorno});
     })
 }
-console.log("serviço de listagem de produto criado com sucesso");
 
-console.log("serviço de pesquisa iniciado");
 // Função para realizar a pesquisa de produtos
 function pesquisa(req, res){
     let termo = req.body.termo;
@@ -143,9 +132,7 @@ function pesquisa(req, res){
         res.render('lista', {produtos:retorno, semRegistros:semRegistros});
     })
 }
-console.log("serviço de pesquisa criado com sucesso");
 
-console.log("serviço de remoção de produto iniciado");
 // Função para realizar a remoção de produtos
 function removerProduto(req, res){
     try{        
@@ -166,9 +153,7 @@ function removerProduto(req, res){
 
     };
 }
-console.log("serviço de remoção de produto criado com sucesso");
 
-console.log("serviço de edição de produto iniciado");
 // Função responsável pela edição de produtos
 function editarProduto(req, res){
     
@@ -206,9 +191,7 @@ function editarProduto(req, res){
                 
     res.redirect('/okEdicao');
 }
-console.log("serviço de edição de produto criado com sucesso");
 
-console.log("exportação dos módulos de serviço iniciada");
 // Exportar funções
 module.exports = {
     formularioCadastro,
@@ -220,4 +203,3 @@ module.exports = {
     removerProduto,
     editarProduto
 };
-console.log("exportação dos modulos de serviço finalizadas");
