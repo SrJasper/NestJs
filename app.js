@@ -31,4 +31,6 @@ app.use((err, req, res, next) => {
   res.status(500).send('Erro interno do servidor');
 });
 
-//app.listen(8080);
+const port = process.env.PORT || 3000;
+
+app.listen(port);
