@@ -1,18 +1,16 @@
-
-const mysql = require('mysql2');
+const mysql = require("mysql2");
 
 const conexao = mysql.createConnection({
-    host: 'projeto.c9eqkuess1zv.us-east-1.rds.amazonaws.com',
-    port: 3306,
-    user: 'admin',
-    password: '12345678',
-    database: 'projeto_schema' 
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
 });
 
-
-conexao.connect(function(erro){
-    if(erro) throw erro;
-    console.log('Conexão criada');
-})
+conexao.connect(function (erro) {
+  if (erro) throw erro;
+  console.log("Conexão criada");
+});
 
 module.exports = conexao;
