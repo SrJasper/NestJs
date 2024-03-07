@@ -75,7 +75,7 @@ function cadastrarProduto(req, res) {
                     return res.redirect('/falhaCadastro');
                 }
                 
-                req.files.imagem.mv(path.join(__dirname + ".."+ 'imagens/' + req.files.imagem.name));
+                req.files.imagem.mv(__dirname + '../../imagens/' + req.files.imagem.name);
                 console.log(retorno);
                 
                 res.redirect('/okCadastro');
