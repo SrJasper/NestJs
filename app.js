@@ -22,6 +22,7 @@ app.engine(
     },
   })
 );
+
 app.set("view engine", "handlebars");
 app.set("views", "./views");
 app.use("/css", express.static("./css"));

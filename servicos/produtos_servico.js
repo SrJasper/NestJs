@@ -1,9 +1,9 @@
 // Importar o módulo de conexão com banco MySQL
 const conexao = require('../db/conexao_mysql');
 
-// Importar o módulo file system
+
 const fs = require('fs');
-// Função para exibir o formulário para cadastro de produtos
+
 function formularioCadastro(req, res){
     res.render('formulario');
 }
@@ -74,7 +74,7 @@ function cadastrarProduto(req, res) {
                     return res.redirect('/falhaCadastro');
                 }
                 
-                req.files.imagem.mv(__dirname + '../../imagens/' + req.files.imagem.name);
+                req.files.imagem.mv(__dirname + '../imagens/' + req.files.imagem.name);
                 console.log(retorno);
                 
                 res.redirect('/okCadastro');
