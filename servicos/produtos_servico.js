@@ -1,7 +1,6 @@
 // Importar o módulo de conexão com banco MySQL
 const conexao = require('../db/conexao_mysql');
 
-
 const fs = require('fs');
 const path = require("path")
 
@@ -75,7 +74,7 @@ function cadastrarProduto(req, res) {
                     return res.redirect('/falhaCadastro');
                 }
                 
-                req.files.imagem.mv(__dirname + '../../imagens/' + req.files.imagem.name);
+                req.files.imagem.mv(path.join(__dirname,  "..", '/imagens/', req.files.imagem.name));
                 console.log(retorno);
                 
                 res.redirect('/okCadastro');
@@ -142,7 +141,7 @@ function removerProduto(req, res){
         conexao.query(sql, function(erro, retorno){
             if(erro) throw erro;
             
-            fs.unlink(__dirname+'/imagens/'+req.params.imagem, (erro_imagem)=>{
+            fs.unlink(path.join(__dirname, "..", '/imagens/',req.params.imagem), (erro_imagem)=>{
                 console.log('Falha ao remover imagem');
             });
         });
@@ -173,14 +172,14 @@ function editarProduto(req, res){
             conexao.query(sql, function(erro, retorno){
                 if(erro) throw erro;
                 
-                fs.unlink(__dirname+'/imagens/'+nomeImagem, (erro_imagem) => {
+                fs.unlink(path.join(__dirname, "..",'/imagens/',nomeImagem), (erro_imagem) => {
                     if(erro_imagem) {
                         console.log("Falha ao excluir a imagem:", erro_imagem);
                         res.redirect("/falhaEdicao")
                         return;
                     }
                 });
-                imagem.mv(__dirname+'/imagens/'+imagem.name);
+                imagem.mv(path.join(__dirname, "..",'/imagens/',imagem.name));
             });
         } catch {
             let sql = `UPDATE produtos SET nome='${nome}', valor=${valor} WHERE codigo=${codigo}`;
