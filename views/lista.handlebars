@@ -6,17 +6,17 @@
 
     <div class="container">
         <div class="row">
-            {{#each produtos}}
-
+              {{#each produtos}}
             <div class="col-12 col-sm-6 col-md-4 col-lg-3">
                 <div class="card">
-                    <img src="../imagens/{{imagem}}">
+                    <img src="../imagens/{{img}}">
                     <div class="textos">
                         <p>{{nome}}</p>
-                        <p>{{valor}}</p>
+                        <p>{{value}}</p>
+                        <!-- Adicione outras propriedades aqui conforme necessário -->
                     </div>
-                    <a href="/formularioEditar/{{codigo}}" class="btn btn-warning">alterar</a>
-                    <a href="/remover/{{codigo}}&{{imagem}}" class="btn btn-danger">remover</a>
+                    <a href="/formularioEditar/{{_id}}" class="btn btn-warning">alterar</a>
+                    <a href="/remover/{{_id}}" class="btn btn-danger">remover</a>
                 </div>
             </div>
             {{/each}}
